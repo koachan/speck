@@ -1,11 +1,4 @@
-CFLAGS=-O2 -std=c99
-CPU=$(shell uname -m)
-
-ifeq ($(CPU),ppc)
-all: main main-ppc
-else
-all: main
-endif
+CFLAGS=-O3
 
 main: main.o speck.o
 

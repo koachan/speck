@@ -25,9 +25,6 @@ speck_encrypt(speck_ctx_t *ctx, uint64_t ct[2], uint64_t const pt[2]) {
 	uint64_t x = pt[1], y = pt[0];
 
 	for (int64_t i = 0; i < _SPECK_ROUNDS; i++) {
-		// Comment/remove the line below to disable unrolling
-		R(x, y, ctx->k[i++]);
-
 		R(x, y, ctx->k[i]);
 	}
 
@@ -40,9 +37,6 @@ speck_decrypt(speck_ctx_t *ctx, uint64_t const ct[2], uint64_t pt[2]) {
 	uint64_t x = ct[1], y = ct[0];
 
 	for (int64_t i = _SPECK_ROUNDS - 1; i >= 0; i--) {
-		// Comment/remove the line below to disable unrolling
-		RINV(x, y, ctx->k[i--]);
-
 		RINV(x, y, ctx->k[i]);
 	}
 
