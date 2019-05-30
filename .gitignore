@@ -1,3 +1,4 @@
 main
 main-ppc
+main-ppc64
 *.o
