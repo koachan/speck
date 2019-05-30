@@ -5,11 +5,7 @@
 # void speck_init(speck_ctx_t *ctx, uint64_t k[2])
 .global speck_init
 speck_init:
-	stwu   %r1, -8(%r1)
-	mflr   %r0
-	stw    %r0, 12(%r1)
-
-	# %r3 is ctx, %r4 is k
+	# %r3 is ctx, %r4 is key
 	# k is (%r6, %r7)
 	# l is (%r8, %r9)
 	# i is %r10
@@ -57,21 +53,15 @@ speck_init.round:
 	stwu   %r6, 8(%r3)
 	stw    %r7, 4(%r3)
 
+	# i++
 	addi   %r10, %r10, 1
 	bdnz   speck_init.round
 
-	lwz    %r0, 12(%r1)
-	mtlr   %r0
-	addi   %r1, %r1, 8
 	blr
 
 # void speck_encrypt(speck_ctx_t *ctx, uint64_t ct[2], uint64_t const pt[2])
 .global speck_encrypt
 speck_encrypt:
-	stwu   %r1, -8(%r1)
-	mflr   %r0
-	stw    %r0, 12(%r1)
-
 	# %r3 is ctx, %r4 is ct, %r5 is pt
 	# x    is (%r8,  %r9)
 	# y    is (%r6,  %r7)
@@ -84,13 +74,13 @@ speck_encrypt:
 	# After loading, %r5 can be clobbered
 
 	subi   %r3, %r3, 8
-	li     %r0, ROUNDS
-	mtctr  %r0
+	li     %r5, ROUNDS
+	mtctr  %r5
 
 speck_encrypt.round:
 	# %r5 and %r12 are temps
 
-	# load round key
+	# Load round key
 	lwzu   %r10, 8(%r3)
 	lwz    %r11, 4(%r3)
 
@@ -125,18 +115,11 @@ speck_encrypt.round:
 	stw    %r8, 8(%r4)
 	stw    %r9, 12(%r4)
 
-	lwz    %r0, 12(%r1)
-	mtlr   %r0
-	addi   %r1, %r1, 8
 	blr
 
 # void speck_decrypt(speck_ctx_t *ctx, uint64_t const ct[2], uint64_t pt[2])
 .global speck_decrypt
 speck_decrypt:
-	stwu   %r1, -8(%r1)
-	mflr   %r0
-	stw    %r0, 12(%r1)
-
 	# %r3 is ctx, %r4 is ct, %r5 is pt
 	# x    is (%r8,  %r9)
 	# y    is (%r6,  %r7)
@@ -149,13 +132,13 @@ speck_decrypt:
 	# After loading, %r4 can be clobbered
 
 	addi   %r3, %r3, 8 * ROUNDS
-	li     %r0, ROUNDS
-	mtctr  %r0
+	li     %r4, ROUNDS
+	mtctr  %r4
 
 speck_decrypt.round:
 	# %r4 and %r12 are temps
 
-	# load round key
+	# Load round key
 	lwzu   %r10, -8(%r3)
 	lwz    %r11, 4(%r3)
 
@@ -189,8 +172,4 @@ speck_decrypt.round:
 	stw    %r7, 4(%r5)
 	stw    %r8, 8(%r5)
 	stw    %r9, 12(%r5)
-
-	lwz    %r0, 12(%r1)
-	mtlr   %r0
-	addi   %r1, %r1, 8
 	blr
