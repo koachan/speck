@@ -1,4 +1,4 @@
-CFLAGS=-O3
+CFLAGS=-O3 -std=gnu99
 LDFLAGS=-Wl,-O1
 
 main: main.o speck.o
