@@ -1,8 +1,9 @@
 Speck-128/128 in C and PowerPC assembly
 ---
 
-This is an implementation of the Speck cipher, with 128 bits key and block size,
-in C, 32-bit PowerPC assembly, and 64-bit PowerPC assembly.
+This is an implementation of the [Speck cipher](https://eprint.iacr.org/2013/404),
+with 128 bits key and block size, in C, 32-bit PowerPC assembly, and
+64-bit PowerPC assembly.
 
 Disclaimer: This is experimental code, use it at your own risk.
 

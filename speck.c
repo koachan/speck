@@ -1,4 +1,5 @@
 // Adapted from the IACR paper
+// https://eprint.iacr.org/2013/404
 
 #include <stdint.h>
 
